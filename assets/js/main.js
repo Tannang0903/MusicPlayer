@@ -365,12 +365,7 @@ const app = {
         }
         currentTime.textContent = songPlayingTime;
     },
-
-    VolumeChangeAudio: function() {
-        
-
-    },
-
+    
     start: function() {
         this.loadConfig(); // Gán cấu hình từ config vào ứng dụng
         this.render(); // render danh sách bài hát 
