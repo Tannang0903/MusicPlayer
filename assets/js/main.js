@@ -23,12 +23,18 @@ const preButton = document.querySelector('.btn-prev');
 const randomButton = document.querySelector('.btn-random');
 const repeatButton = document.querySelector('.btn-repeat');
 const playList = document.querySelector('.playlist');
+const currentTime = document.querySelector('.currentTime');
+const durationTime = document.querySelector('.durationTime');
+const volumeAudio = document.querySelector('#volume');
+const volumeChange = document.querySelector('.volume-change');
+
 
 const app = {
     currentIndex: 0,
     isPlaying: false,
     isRandom: false,
     isRepeat: false,
+    isVolumeChange: false,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     songs: [
         {
@@ -180,9 +186,12 @@ const app = {
             if(audio.duration) {
                 const percent = Math.floor(audio.currentTime / audio.duration * 100);  
                 progress.value = percent;
+
+                _this.getDurationTime();
+                _this.getCurrentTime();
             }
         }
-
+        
         // Xử lí khi tua song
 
         progress.onchange = function(e) {
@@ -255,6 +264,38 @@ const app = {
                 }
             }
         }
+
+        // Xử lí sự kiện tăng giảm volume
+        volumeAudio.onchange = function (e) {
+            const currentVolume = (Number(volumeAudio.value) / 100);
+            audio.volume = currentVolume;
+            // _this.setConfig('currentVolume', _this.currentVolume);
+			audio.play();
+			if (audio.volume === 0) {
+				volumeChange.classList.add('active');
+			} else {
+				_this.isMute = false;
+				_this.setConfig('isMute', _this.isMute);
+				volumeChange    .classList.remove('active');
+			}
+        };
+
+        // Xử lí sự kiện volume Change 
+        volumeChange.onclick = function() {
+            _this.isVolumeChange = !_this.isVolumeChange;
+            if(_this.isVolumeChange){
+                volumeChange.classList.add('active', _this.isVolumeChange);
+                audio.volume = 0;
+                volumeAudio.value = 0;
+            }
+            else{
+                volumeChange.classList.remove('active', _this.isVolumeChange);
+                audio.volume = 1;
+                volumeAudio.value = 100;
+                c
+            }
+        };
+
     },
 
     loadCurrentSong: function(){
@@ -302,6 +343,33 @@ const app = {
 
         this.currentIndex = newIndex;
         this.loadCurrentSong();
+    },
+
+    getDurationTime: function() {
+        const audiod = audio.duration;   
+        const minutes = "0" + Math.floor(audiod / 60); 
+        const seconds =  Math.floor(audiod - minutes * 60); 
+        let songTime = minutes + ' : ' + seconds;
+        if( Number(seconds) < 10 ) {
+            songTime = minutes + ' : 0' + seconds;
+        }
+        durationTime.textContent = songTime;
+    },
+
+    getCurrentTime: function() {
+        const currentTimePlaying = audio.currentTime;   
+        const minutes = "0" + Math.floor(currentTimePlaying / 60); 
+        const seconds =  Math.floor(currentTimePlaying - minutes * 60); 
+        let songPlayingTime = minutes + ' : ' + seconds;
+        if( Number(seconds) < 10 ) {
+            songPlayingTime = minutes + ' : 0' + seconds;
+        }
+        currentTime.textContent = songPlayingTime;
+    },
+
+    VolumeChangeAudio: function() {
+        
+
     },
 
     start: function() {
