@@ -73,7 +73,7 @@ const app = {
             path: './assets/music/tetLaAnHet.mp3',
         },
         {
-            name: 'Theres No One Ai All',
+            name: 'Theres No One At All',
             singer: 'Sơn Tùng MTP',
             img: './assets/img/theresNoOneAtAll.jpg',
             path: './assets/music/theresNoOneAtAll.mp3',
