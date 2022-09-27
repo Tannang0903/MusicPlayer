@@ -28,7 +28,6 @@ const durationTime = document.querySelector('.durationTime');
 const volumeAudio = document.querySelector('#volume');
 const volumeChange = document.querySelector('.volume-change');
 
-
 const app = {
     currentIndex: 0,
     isPlaying: false,
@@ -269,7 +268,6 @@ const app = {
         volumeAudio.onchange = function (e) {
             const currentVolume = (Number(volumeAudio.value) / 100);
             audio.volume = currentVolume;
-            // _this.setConfig('currentVolume', _this.currentVolume);
 			audio.play();
 			if (audio.volume === 0) {
 				volumeChange.classList.add('active');
@@ -282,17 +280,18 @@ const app = {
 
         // Xử lí sự kiện volume Change 
         volumeChange.onclick = function() {
+            const currentVolume = Number(audio.volume);
             _this.isVolumeChange = !_this.isVolumeChange;
             if(_this.isVolumeChange){
                 volumeChange.classList.add('active', _this.isVolumeChange);
-                audio.volume = 0;
+                audio.muted = true;
                 volumeAudio.value = 0;
             }
-            else{
+            else {
                 volumeChange.classList.remove('active', _this.isVolumeChange);
-                audio.volume = 1;
-                volumeAudio.value = 100;
-                c
+                audio.muted = false;
+                volumeAudio.value = currentVolume * 100;
+                console.log(currentVolume);
             }
         };
 
