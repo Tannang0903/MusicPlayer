@@ -291,7 +291,6 @@ const app = {
                 volumeChange.classList.remove('active', _this.isVolumeChange);
                 audio.muted = false;
                 volumeAudio.value = currentVolume * 100;
-                console.log(currentVolume);
             }
         };
 
